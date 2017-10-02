@@ -40,7 +40,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {  // db j
     */
 
     // vježba - findOneAndDelete sa ID kriterijem (treba koristiti constructor ObjectID() )
-    db.collection('Users').findOneAndDelete({_id: new ObjectID('59ce2dd3b94b62ec03325376')}).then((results) => {
+    db.collection('Users').findOneAndDelete({_id: new ObjectID('59d1fad22e9fa0f59712ee18')}).then((results) => {
         console.log(JSON.stringify(results, null, 2));
     });
     
