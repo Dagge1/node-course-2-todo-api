@@ -3,7 +3,8 @@ var express = require('express');
 var bodyParser = require('body-parser');  // za parsanje stringa u objekt
 
 // my local imports
-var {mongoose} = require('./db/mongoose');  // ES6 način sa {}, destructuring  - vadimo  i spremamo varijablu iz objecta
+var {mongoose} = require('./db/mongoose');  // ES6 način sa {}, destructuring
+// var mongoose = require('./db/mongoose').mongoose;    // stari način
 var {Todo} = require('./models/todo');  // moglo bi i ./models/todo.js
 var {User} = require('./models/user');
 
@@ -25,6 +26,8 @@ app.post('/todos', (req, res) => {
 app.listen(3000, () => {
     console.log('Started on port 3000');
 });
+
+module.exporta = {app};
 
 
 
