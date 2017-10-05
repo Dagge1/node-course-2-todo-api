@@ -22,9 +22,9 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {  // db j
     console.log('Connected to MongoDB server');  // ako nema errora
     
     // kreiramo novu collection 'Todos' (kao table u MySQL) i insertamo novi unos sa methodom insertOne()
-    // prvi argument je object koji sprema razne name-value parove, drugi je callback koji triga ako prođe ok ili sa erroro
-    /*
-    db.collection('Todos').insertOne({
+    // prvi argument je object koji sprema razne name-value parove, drugi je callback koji triga ako prođe ok ili sa errorom
+    
+    db.collection('Todos').insertOne({   // insertOne je method za insertanje jednog unosa ručno sa triganjem fajla a ne sa HTTP POST requestom
         text: 'Something to do',
         completed: false
     }, (err, result) => {  // callback unesi kod ako je error ili printaj ako je uspješno unesen
@@ -34,8 +34,9 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {  // db j
     // u slučaju uspjeha isprintaj formatirano rezultat unosa
     console.log(JSON.stringify(result.ops, undefined, 2));  // ops prikazuje sve docs koji su insertani 
     });
-    */
-    /*
+    
+
+    /* *******
     db.collection('Users').insertOne({  // novi unos (record) u novi collection (table) 'Users'
         name: 'Davor',
         age: 50,
