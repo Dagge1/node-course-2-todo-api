@@ -1,6 +1,7 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
 var express = require('express');
 var bodyParser = require('body-parser');  // za parsanje stringa u objekt
+const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korištenje ID-a
 
 // my local imports into this document
 var {mongoose} = require('./db/mongoose');  // ES6 način sa {}, destructuring
@@ -28,16 +29,35 @@ app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može 
 });
 
 // ***** GET request ***
-app.get('/todos', (req, res) => {
-    Todo.find().then((todos) => {  // prikaži sve todo unose. Da je query find(nešto) prikazao bi filtrirano
-        res.send({todos});    // ako je ok šalje podatke natrag. todos je samo placeholder ime
+
+app.get('/todos', (req, res) => { 
+    Todo.find().then((todos) => {  // pronađi sve todo unose. Da je query find(nešto) prikazao bi filtrirano
+        res.send({todos});    // ako ok šalji podatke natrag. todos je samo placeholder ime
     }, (e) => {           // promise u slučaju da bude rejected
         res.status(400).send(e); 
     });
 });
 
-// fetching individual variable from URL
-// :Id je varijabla koja će biti posalana sa request objectom i sadržavati će id recorda
+
+// fetching individual variable from URL pomoću id-a
+// :Id je URL parametar, varijabla koja će biti posalana sa request objectom i sadržavati će id recorda
+app.get('/todos/:id', (req, res) => {  // upiši u Postman 'GET localhost:3000/todos/123' i dobit ćeš object sa 123 param.
+  //  res.send(req.params);  // za testiranje sa Postmanom gdje upiši localhost:3000/todos/123
+    var id = req.params.id;  // prikazati će samo parametar id a ne cijeli object kao sa 'req.params'
+
+    if (!ObjectID.isValid(id) ) {  // ObjectId je method mongodb objekta koji provjerava da li je ID validan
+        return res.status(404).send();  // ako id nije validan returnaj 404 error status
+    }
+    Todo.findById(id).then((todo) => {  // todo je naše proizvoljno placeholder ime
+        if (!todo) {                        // ako nije našao..
+            return res.status(404).send();  // error: not found.  send šalje nama podatak, grešku itd
+        }
+        res.send({todo});  // pošalji rezultat. ES6, jednako kao da je send({todo: "todo"});
+    }).catch((e) => {            // ako je drugačija greška..
+        res.status(400).send();  // bad request, server ne može izvršiti zahtjev
+    });
+});
+
 
 
 app.listen(3000, () => {
