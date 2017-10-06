@@ -36,6 +36,10 @@ app.get('/todos', (req, res) => {
     });
 });
 
+// fetching individual variable from URL
+// :Id je varijabla koja će biti posalana sa request objectom i sadržavati će id postavljanje
+
+
 app.listen(3000, () => {
     console.log('Started on port 3000');
 });
