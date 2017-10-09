@@ -13,10 +13,8 @@ const todos = [{  // prije testa u lekciji 76 moramo dodati par unosa jer je pri
 
 
 beforeEach((done) => {   // prije svakog testa provjeri dali je baza prazna prije svakog testa,
-    Todo.remove({}).then(() => {  // isprazni bazu, zatim..
-        Todo.insertMany(todos);   // mongoose method koji ubacuje više recorda/dokumenta odjednom (iz arraya todos)
-    }).then(() => done());    
-});
+    Todo.remove({}).then(() => done());  // isprazni bazu,
+    });
 
 describe('POST /todos', () => {
     it('should create a new todo', (done) => {  //  ()done) treba jer je asinhroni test
@@ -34,24 +32,27 @@ describe('POST /todos', () => {
                 return done(err);
             }
             
-            Todo.find({text}).then((todos) => {
+            Todo.find().then((todos) => {
                 expect(todos.length).toBe(1);
                 expect(todos[0].text).toBe(text);
                 done();
             }).catch((e) => done(e));  // statement arrow function syntax    
         });
     });
-});
-// tu fali testni kod iz prijašnje test lekcije
 
-describe('GET /todos', () => {
-    it('should get all todos', (done) => {
+    it('should not create todo with body data', (done) => {
         request(app)
-        .get('/todos')
-        .expect(200)
-        .expect((res) => {
-           expect(res.body.todos.length).toBe(2); 
-        })
-        .end(done);
+        .post('/todos')
+        .send({})
+        .expect(400)
+        .end((err, res) => {
+            if (err) {
+                return done(err);
+            }
+            Todo.find().then((todos) => {
+                expect(todos.length).toBe(0);
+                done();
+            }).catch((e) => done(e));
+        });
     });
 });
