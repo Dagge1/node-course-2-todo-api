@@ -11,6 +11,7 @@ var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i
 
 // *** postavljanje basic servera ****
 var app = express();
+const port = process.env.PORT || 3000  // port za Heroku, ako nema onda je default 3000 na localhost
 app.use(bodyParser.json());
 
 // *** POST request
@@ -60,8 +61,35 @@ app.get('/todos/:id', (req, res) => {  // upiši u Postman 'GET localhost:3000/t
 
 
 
-app.listen(3000, () => {
-    console.log('Started on port 3000');
+// deletanje unosa pomoću id-a (možeš testirati sa Postman)
+app.delete('/todos/:id', (req, res) => {
+    // get the id
+    var id = req.params.id;  // params je gdje su svi URL parametri pohranjeni
+
+    // validate id -> not valid? return 404
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    }
+
+    // remove the todo by id
+    Todo.findByIdAndRemove(id).then((todo) => { 
+        // if not doc, send 404
+        if (!todo) {
+            return res.status(404).send();
+        }
+        // if ok, send send doc back and status 200
+        res.status(200).send(todo);
+
+    // error case -> send 400 with empty body
+    }).catch((e) => {    
+        res.status(400).send();
+    });
+});
+
+
+
+app.listen(port, () => {
+    console.log('Started up at port ' + port);
 });
 
 module.exports = {app};

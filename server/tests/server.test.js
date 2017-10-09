@@ -1,13 +1,16 @@
 // testiranje
 const expect = require('expect');
 const request = require('supertest');
+const {ObjectID} = require('mongodb');  // za fetchati ID
 
 const {app} = require('./../server');  // relative path, zatim jedan dir natrag i onda fajl
 const {Todo} = require('./../models/todo');
 
 const todos = [{  // prije testa u lekciji 76 moramo dodati par unosa jer je prijašnji test ispraznio bazu
+    _id: new ObjectID(),  // sami generiramo id
     text: 'First test todo'     // array sa dva objekta tj dva unosa u bazu
 }, {
+    _id: new ObjectID(),
     text: 'Second test todo'
 }];
 
@@ -54,5 +57,17 @@ describe('POST /todos', () => {
                 done();
             }).catch((e) => done(e));
         });
+    });
+});
+
+describe('GET /todos/:id', () => {  // testing za unos prema ID-u
+    it('should return todo doc', (done) => {   // 'done' argument jer je async. test
+        request(app)
+        .get('/todos/' + todos[0]._id.toHexString())  // id je object id, treba ga pretvoriti u string radi URL prikaza
+        .expect(200)  // Http status kod, 200 znači sve je ok
+        .expect((res) => {
+            expect(res.body.todo.text).toBe(todos[0].text);
+        })
+        .end(done);
     });
 });
