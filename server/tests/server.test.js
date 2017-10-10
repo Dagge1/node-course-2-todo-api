@@ -15,13 +15,16 @@ const todos = [{  // prije testa u lekciji 76 moramo dodati par unosa jer je pri
 }];
 
 
-beforeEach((done) => {   // prije svakog testa provjeri dali je baza prazna prije svakog testa,
-    Todo.remove({}).then(() => done());  // isprazni bazu,
-    });
+beforeEach((done) => {   // prije svakog testa provjeri da li je baza prazna prije svakog testa,
+    Todo.remove({}).then(() => {
+        return Todo.insertMany(todos);
+    }).then(() => done());  
+});
 
 describe('POST /todos', () => {
     it('should create a new todo', (done) => {  //  ()done) treba jer je asinhroni test
-        var text = 'Test todo text';
+        var text = 'First test todo';
+        // var text = 'Test todo text';
 
         request(app)
         .post('/todos')
@@ -36,7 +39,7 @@ describe('POST /todos', () => {
             }
             
             Todo.find().then((todos) => {
-                expect(todos.length).toBe(1);
+                expect(todos.length).toBe(3);
                 expect(todos[0].text).toBe(text);
                 done();
             }).catch((e) => done(e));  // statement arrow function syntax    
@@ -53,7 +56,7 @@ describe('POST /todos', () => {
                 return done(err);
             }
             Todo.find().then((todos) => {
-                expect(todos.length).toBe(0);
+                expect(todos.length).toBe(2);
                 done();
             }).catch((e) => done(e));
         });
@@ -70,4 +73,24 @@ describe('GET /todos/:id', () => {  // testing za unos prema ID-u
         })
         .end(done);
     });
+
+    it('should return 404 if todo not found', (done) => {
+        var hexId = new ObjectID().toHexString();  // kreiraj novi Id i pretvori ga u MongoDB hex id za prikaz u URL
+        console.log(hexId); // prikaži kreirani MongoDB Object ID
+
+        request(app)
+        .get('/todos/' + hexId)  // id je object id, treba ga pretvoriti u string radi URL prikaza
+        .expect(404)
+        .end(done);
+
+    });
+
+
+    it('should return 404 for non-object ids', (done) => {
+        request(app)
+        .get('/todos/123abc')
+        .expect(404)
+        .end(done);
+    });    
+
 });
