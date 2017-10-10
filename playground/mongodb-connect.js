@@ -15,7 +15,8 @@ console.log(obj);
 // callback će se trigati tek ako je connection prošao ili failao. 
 // TodoApp je ime naše baze, ne moramo je kreirati prije, iako smo se ovdje spojili na nju
 // MongoDB neće kreirati bazu sve dok ne počnemo dodavati podatke u nju
-MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {  // db je object za write/read data
+// MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {  // db je object za write/read data
+MongoClient.connect('mongodb://adriatic111:zagreb2108@ds115625.mlab.com:15625/todoapp', (err, db) => {  // db je object za write/read data
     if (err) {
         return console.log('Unable to connect to MongoDB server'); // return će prekinuti izvršenje ispod ako je error
     }

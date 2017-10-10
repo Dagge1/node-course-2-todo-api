@@ -1,6 +1,6 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
 var express = require('express');
-var bodyParser = require('body-parser');  // za parsanje stringa u objekt
+var bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
 const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korištenje ID-a
 
 // my local imports into this document
@@ -11,13 +11,14 @@ var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i
 
 // *** postavljanje basic servera ****
 var app = express();
-const port = process.env.PORT || 3000  // port za Heroku, ako nema onda je default 3000 na localhost
+const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
 app.use(bodyParser.json());
 
 // *** POST request
 
 // app.post je URL handler  a '/todos' je URL. Da stavimo /todos/3244 to bi bio indivivualni post
-app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može biti i /dobardan
+app.post('/', (req, res) => { // todos je naziv lokacije u browseru, može biti i /dobardan
+    
     var todo = new Todo ({  // novi tekst korištenjem modela/šprance Todo iz todo.js 
         text: req.body.text  // odakle se šalje i kamo (u text:)
     });
@@ -27,6 +28,7 @@ app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može 
     }, (e) => {
         res.status(400).send(e); // status 400 je Bad request (user nije unio dobro unio podatak)
     });
+    
 });
 
 // ***** GET request ***
