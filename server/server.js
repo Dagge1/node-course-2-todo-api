@@ -1,6 +1,7 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
-var express = require('express');
-var bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
+const _ = require('lodash');
+const express = require('express');
+const bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
 const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korištenje ID-a
 
 // my local imports into this document
@@ -89,6 +90,31 @@ app.delete('/todos/:id', (req, res) => {
 });
 
 
+app.patch('/todos/:id', (req, res) => {   // za updatanje
+    var id = req.params.id;  // preuzmi id sa request . params(parametri url-a) i id
+    var body = _.pick(req.body, ['text', 'completed']);  // uzmi text i completed parametre iz objekta i spremi u body
+
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    } 
+
+    if (_.isBoolean(body.completed) && body.completed) {  // ako je 'completed' boolean i ako je true..
+    body.completedAt = new Date().getTime();  // ako je true, u polje 'CompletedAt' upiši datum
+    } else {
+        body.completed = false;   // polje 'completed' je false
+        body.completedAt = null;  // polje 'datum kompletiranja' je null
+    }
+    // query za updatanje baze
+    Todo.findByIdAndUpdate(id, {$set: body}, {new: true}).then((todo) => {
+        if (!todo) {
+            return res.status(404).send();
+        }
+        res.send({todo});
+    }).catch((e) => {
+        res.status(400).send();
+    })
+
+});
 
 app.listen(3000, () => {
     console.log('Started up at port ' + port);
