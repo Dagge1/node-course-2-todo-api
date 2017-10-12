@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 // *** POST request
 
 // app.post je URL handler  a '/todos' je URL. Da stavimo /todos/3244 to bi bio indivivualni post
-app.post('/', (req, res) => { // todos je naziv lokacije u browseru, može biti i /dobardan
+app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može biti i /dobardan
     
     var todo = new Todo ({  // novi tekst korištenjem modela/šprance Todo iz todo.js 
         text: req.body.text  // odakle se šalje i kamo (u text:)
@@ -80,7 +80,7 @@ app.delete('/todos/:id', (req, res) => {
             return res.status(404).send();
         }
         // if ok, send send doc back and status 200
-        res.status(200).send(todo);
+        res.status(200).send({todo});
 
     // error case -> send 400 with empty body
     }).catch((e) => {    
@@ -90,7 +90,7 @@ app.delete('/todos/:id', (req, res) => {
 
 
 
-app.listen(port, () => {
+app.listen(3000, () => {
     console.log('Started up at port ' + port);
 });
 
