@@ -12,8 +12,8 @@ var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i
 
 // *** postavljanje basic servera ****
 var app = express();
-const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
-// const port = process.env.PORT || 3000;
+// const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
+const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // *** POST request

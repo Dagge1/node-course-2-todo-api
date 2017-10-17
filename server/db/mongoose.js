@@ -7,18 +7,19 @@ mongoose.Promise = global.Promise;  // koristimo default promises umjesto callba
 // mongoose.connect('mongodb://localhost:27017/TodoApp');  // spajanje na MnogoDB bazu: localhost je adresa 27017 je port, TodoApp je ime baze
 // process.env.MONGODB_URI = 'mongodb://heroku_lqn963cb:20c14q48hecsj3euvhuuhj36go@ds117605.mlab.com:17605/heroku_lqn963cb';
 
-/*
+
 let db = {
   localhost: 'mongodb://localhost:27017/TodoApp',
   // mlab: 'mongodb://heroku_lqn963cb:zagreb2108@ds117605.mlab.com:17605/heroku_lqn963cb'
   // mlab: 'mongodb://adriat:zagreb2108@ds117605.mlab.com:17605/heroku_lqn963cb'  // I created two db usernames at mLab
-  mlab: 'mongodb://adriatic111:zagreb2108@ds115625.mlab.com:15625/todoapp'  // I created two db usernames at mLab
+  mlab: 'mongodb://adriat:adriatic111@ds117605.mlab.com:17605/heroku_lqn963cb'  // I created two db usernames at mLab
 };
-*/
+
 
 // mongoose.connect( db.mlab || db.localhost);
-mongoose.connect('mongodb://adriat:zagreb2108@ds117605.mlab.com:17605/heroku_lqn963cb');
-// mongoose.connect( process.env.PORT ? db.mlab : db.localhost);
+// mongoose.connect('mongodb://adriat:zagreb2108@ds117605.mlab.com:17605/heroku_lqn963cb');
+
+mongoose.connect( process.env.PORT ? db.mlab : db.localhost);
 
 
 
