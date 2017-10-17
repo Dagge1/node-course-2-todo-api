@@ -116,8 +116,8 @@ app.patch('/todos/:id', (req, res) => {   // za updatanje
 
 });
 
-app.listen(3000, () => {
-    console.log('Started up at port ' + port);
+app.listen(17605, () => {
+ //   console.log('Started up at port ' + port);
 });
 
 module.exports = {app};

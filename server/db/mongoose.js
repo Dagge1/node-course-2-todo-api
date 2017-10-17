@@ -7,7 +7,10 @@ mongoose.Promise = global.Promise;  // koristimo default promises umjesto callba
 process.env.MONGODB_URI = 'mongodb://adriatic111:zagreb2108@ds115625.mlab.com:15625/todoapp';
 
 // mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TodoApp');
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+// mongoose.connect('mongodb://localhost:27017/TodoApp');
+mongoose.connect('mongodb://adriatic111:zagreb2108@ds117605.mlab.com:17605/adriat'); //from heroku
+
+//mongoose.connect('mongodb://heroku_lqn963cb:20c14q48hecsj3euvhuuhj36go@ds117605.mlab.com:17605/heroku_lqn963cb');
 
 
 
