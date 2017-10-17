@@ -12,7 +12,7 @@ var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i
 
 // *** postavljanje basic servera ****
 var app = express();
-const port = process.env.PORT || 3000;  // port za Heroku, ako nema onda je default 3000 na localhost
+const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
 app.use(bodyParser.json());
 
 // *** POST request
@@ -116,8 +116,8 @@ app.patch('/todos/:id', (req, res) => {   // za updatanje
 
 });
 
-app.listen(17605, () => {
- //   console.log('Started up at port ' + port);
+app.listen(port, () => {
+    console.log('Started up at port ' + port);
 });
 
 module.exports = {app};
