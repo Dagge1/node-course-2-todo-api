@@ -11,7 +11,7 @@ mongoose.Promise = global.Promise;  // koristimo default promises umjesto callba
 let db = {
   localhost: 'mongodb://localhost:27017/TodoApp',
   // mlab: 'mongodb://heroku_lqn963cb:zagreb2108@ds117605.mlab.com:17605/heroku_lqn963cb'
-  mlab: 'mongodb://adriat:zagreb2108@ds117605.mlab.com:17605/heroku_lqn963cb'
+  mlab: 'mongodb://adriat:zagreb2108@ds117605.mlab.com:17605/heroku_lqn963cb'  // I have two db users at mLab
 };
 mongoose.connect( db.mlab || db.localhost);
 
