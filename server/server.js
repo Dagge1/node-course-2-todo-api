@@ -11,7 +11,10 @@ var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i
 
 // *** postavljanje basic servera ****
 var app = express();
+
 // const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
+// process.env je object koji pohranjuje sve environment varijable na PC-u kao key-value par,
+// (u CLI utipkaj 'set'). Mi tražimo varijablu PORT koju je postavio Heroku.
 const port = process.env.PORT;
 app.use(bodyParser.json());
 
