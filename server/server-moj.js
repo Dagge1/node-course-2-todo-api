@@ -69,7 +69,7 @@ app.post("/addname", (req, res) => { // nakon klika 'Unesi' prebacuje na stranic
  // myData.text = req.body.text;  // alternativni način: ...new Todo(); i onda ovaj red
  myData.save()
  .then(item => {
- res.send("item saved to database");
+ // res.send("item saved to database");
  res.redirect('all');  // redirecta na listu unosa iz baze
  })
  .catch(err => {
