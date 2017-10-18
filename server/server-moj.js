@@ -19,6 +19,7 @@ var app = express();
 // (u CLI utipkaj 'set'). Mi tražimo varijablu PORT koju je postavio Heroku.
 const port = process.env.PORT;
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 // *** POST request
 
@@ -47,6 +48,29 @@ app.get('/', (req, res) => {
     });
 });
 
+// *******************
+
+//moja GET i POST funkcija za unos novog Todo u bazu
+app.get("/msg", (req, res) => {
+ res.sendFile(__dirname + "/static_moj/index.html");
+ // res.send("<h3>Hello World</h3>");
+});
+
+app.post("/addname", (req, res) => {
+ var myData = new Todo({  
+        text: req.body.text  // odakle se šalje i kamo (u text:)
+    });
+ myData.save()
+ .then(item => {
+ res.send("item saved to database");
+ })
+ .catch(err => {
+ res.status(400).send("unable to save to database");
+ });
+});
+
+
+// *********************
 
 // fetching individual variable from URL pomoću id-a
 // :Id je URL parametar, varijabla koja će biti posalana sa request objectom i sadržavati će id recorda
