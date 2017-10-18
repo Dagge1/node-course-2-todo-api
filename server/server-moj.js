@@ -51,12 +51,12 @@ app.get('/all', (req, res) => {
 // *******************
 
 //moja GET i POST funkcija za unos novog Todo u bazu
-/*
-app.use("/", (req, res) => {
+
+app.get("/", (req, res) => {
  res.sendFile(__dirname + "/static_moj/index.html");
  // res.send("<h3>Hello World</h3>");
 });
-*/
+
 app.post("/addname", (req, res) => {
  res.send("<h3>Hello World</h3>");
  /*
