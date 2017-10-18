@@ -40,7 +40,7 @@ app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može 
 
 // ***** GET request ***
 
-app.get('/', (req, res) => { 
+app.get('/all', (req, res) => { 
     Todo.find().then((todos) => {  // pronađi sve todo unose. Da je query find(nešto) prikazao bi filtrirano
         res.send({todos});    // ako ok šalji podatke natrag. todos je samo placeholder ime
     }, (e) => {           // promise u slučaju da bude rejected
@@ -58,9 +58,7 @@ app.use("/", (req, res) => {
 
 app.post("/addname", (req, res) => {
  res.sendFile(__dirname + "/static_moj/index.html");
- var myData = new Todo({  
-        text: req.body.text  // odakle se šalje i kamo (u text:)
-    });
+ var myData = new Todo(req.body);
  myData.save()
  .then(item => {
  res.send("item saved to database");
