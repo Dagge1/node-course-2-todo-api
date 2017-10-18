@@ -2,9 +2,9 @@
   "name": "todo-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "index.php",
   "scripts": {
-    "start": "index.html",
+    "start": "index.php",
     "test": "mocha server/**/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
