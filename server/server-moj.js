@@ -43,7 +43,7 @@ app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može 
 
 app.get('/all', (req, res) => { 
     Todo.find().then((todos) =>  { // pronađi sve todo unose. Da je query find(nešto) prikazao bi filtrirano
-        res.send({todo});    // ispiši samo polje 'text' iz baze
+        res.send({todos});    // ispiši samo polje 'text' iz baze
     }, (e) => {           // promise u slučaju da bude rejected
         res.status(400).send(e); 
     });
