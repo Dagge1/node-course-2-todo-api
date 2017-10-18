@@ -1,4 +1,5 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
+// cloud server je Heroku powerful-sea-16485 na https://powerful-sea-16485.herokuapp.com/
 const express = require('express');
 const bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
 const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korištenje ID-a
