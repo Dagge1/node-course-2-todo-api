@@ -58,7 +58,7 @@ app.use("/", (req, res) => {
 
 app.post("/addname", (req, res) => {
  var myData = new Todo({
-     text: req.body.text
+     text: req.body
  });
  myData.save()
  .then(item => {
