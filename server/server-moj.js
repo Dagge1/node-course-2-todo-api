@@ -60,8 +60,10 @@ app.get("/", (req, res) => {
 app.post("/addname", (req, res) => {
  // res.send("<h3>Hello World</h3>");  // samo za probu POST-a klikom na gumb
  
- var myData = new Todo();
- myData.text = req.body.text;
+ var myData = new Todo({
+     text: req.body.text
+ });
+ // myData.text = req.body.text;  // polje 'text spremi u bazu - item 'text'
  myData.save()
  .then(item => {
  res.send("item saved to database");
