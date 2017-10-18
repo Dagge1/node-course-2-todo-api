@@ -57,8 +57,9 @@ app.use("/", (req, res) => {
 });
 
 app.post("/addname", (req, res) => {
- res.sendFile(__dirname + "/static_moj/index.html");
- var myData = new Todo(req.body);
+ var myData = new Todo({
+     text: req.body.text
+ });
  myData.save()
  .then(item => {
  res.send("item saved to database");
