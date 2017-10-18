@@ -53,15 +53,15 @@ app.get('/all', (req, res) => {
 //moja GET i POST funkcija za unos novog Todo u bazu
 
 app.get("/", (req, res) => {
- res.sendFile(__dirname + "/static_moj/index.html");
+ res.sendFile(__dirname + "/static_moj/index.html"); 
  // res.send("<h3>Hello World</h3>");
 });
 
 app.post("/addname", (req, res) => {
- res.send("<h3>Hello World</h3>");
- /*
+ // res.send("<h3>Hello World</h3>");  // samo za probu POST-a klikom na gumb
+ 
  var myData = new Todo();
-     myData.text = req.body.text;
+ myData.text = req.body.text;
  myData.save()
  .then(item => {
  res.send("item saved to database");
@@ -69,7 +69,7 @@ app.post("/addname", (req, res) => {
  .catch(err => {
  res.status(400).send("unable to save to database");
 });
-*/
+
 });
 
 
