@@ -58,7 +58,7 @@ app.use("/", (req, res) => {
 });
 */
 app.post("/addname", (req, res) => {
- console.log('Hey POST works');
+ res.send("<h3>Hello World</h3>");
  /*
  var myData = new Todo();
      myData.text = req.body.text;
