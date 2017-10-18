@@ -39,10 +39,9 @@ app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može 
 
 // ***** GET request ***
 
-app.get('/todos', (req, res) => { 
+app.get('/', (req, res) => { 
     Todo.find().then((todos) => {  // pronađi sve todo unose. Da je query find(nešto) prikazao bi filtrirano
         res.send({todos});    // ako ok šalji podatke natrag. todos je samo placeholder ime
-        res.send('Hello svi');
     }, (e) => {           // promise u slučaju da bude rejected
         res.status(400).send(e); 
     });
