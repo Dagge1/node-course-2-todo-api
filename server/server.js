@@ -5,7 +5,7 @@ const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korište
 
 // my local imports into this document
 var {mongoose} = require('./db/mongoose');  // ES6 način sa {}, destructuring
-// var mongoose = require('./db/mongoose').mongoose;    // stari način
+var mongoose = require('./db/mongoose').mongoose;    // stari način
 var {Todo} = require('./models/todo');  // moglo bi i ./models/todo.js
 var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i u ovom fajlu se ne koristi
 
@@ -119,7 +119,7 @@ app.patch('/todos/:id', (req, res) => {   // za updatanje
 
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Started up at port ' + port);
 });
 
