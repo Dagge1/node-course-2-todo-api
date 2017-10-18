@@ -47,6 +47,10 @@ app.get('/', (req, res) => {
     });
 });
 
+//moja GET poruka
+app.get("/msg", (req, res) => {
+ res.send("<h3>Hello World</h3>");
+});
 
 // fetching individual variable from URL pomoću id-a
 // :Id je URL parametar, varijabla koja će biti posalana sa request objectom i sadržavati će id recorda
