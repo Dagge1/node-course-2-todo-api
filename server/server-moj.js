@@ -20,7 +20,7 @@ var app = express();
 // (u CLI utipkaj 'set'). Mi tražimo varijablu PORT koju je postavio Heroku.
 const port = process.env.PORT;
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true})); // urlencoded vadi unos iz forme i stavlja u 'body' property 'res' objecta
 
 // *** POST request
 
@@ -70,6 +70,7 @@ app.post("/addname", (req, res) => { // nakon klika 'Unesi' prebacuje na stranic
  myData.save()
  .then(item => {
  res.send("item saved to database");
+ res.redirect('all');  // redirecta na listu unosa iz baze
  })
  .catch(err => {
  res.status(400).send("unable to save to database");
