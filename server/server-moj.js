@@ -57,9 +57,8 @@ app.use("/", (req, res) => {
 });
 
 app.post("/addname", (req, res) => {
- var myData = new Todo({
-     text: req.body
- });
+ var myData = new Todo();
+     myData.text = req.body.text;
  myData.save()
  .then(item => {
  res.send("item saved to database");
