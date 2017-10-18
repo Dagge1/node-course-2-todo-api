@@ -1,5 +1,4 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
-const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
 const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korištenje ID-a
@@ -13,7 +12,7 @@ var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i
 // *** postavljanje basic servera ****
 var app = express();
 // const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.use(bodyParser.json());
 
 // *** POST request
@@ -117,7 +116,7 @@ app.patch('/todos/:id', (req, res) => {   // za updatanje
 
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Started up at port ' + port);
 });
 
