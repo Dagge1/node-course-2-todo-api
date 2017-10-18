@@ -1,6 +1,7 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
 // cloud server je Heroku powerful-sea-16485 na https://powerful-sea-16485.herokuapp.com/
 // kada učitaš dodaj na kraju route ili collection
+// ****** User input from html form into Mongo database *****
 const express = require('express');
 const bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
 const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korištenje ID-a
@@ -42,28 +43,30 @@ app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može 
 
 app.get('/all', (req, res) => { 
     Todo.find().then((todos) => {  // pronađi sve todo unose. Da je query find(nešto) prikazao bi filtrirano
-        res.send({todos});    // ako ok šalji podatke natrag. todos je samo placeholder ime
+        res.send(todos.name);    // ako ok šalji podatke natrag. todos je samo placeholder ime
     }, (e) => {           // promise u slučaju da bude rejected
         res.status(400).send(e); 
     });
 });
 
+
+
 // *******************
 
-//moja GET i POST funkcija za unos novog Todo u bazu
+//moja GET i POST funkcija za unos novog Todo u Mongo bazu putem html forme
 
-app.get("/", (req, res) => {
+app.get("/", (req, res) => { // prvo u rootu GET ispiše html formu
  res.sendFile(__dirname + "/static_moj/index.html"); 
  // res.send("<h3>Hello World</h3>");
 });
 
-app.post("/addname", (req, res) => {
+app.post("/addname", (req, res) => { // nakon klika 'Unesi' prebacuje na stranicu /addname
  // res.send("<h3>Hello World</h3>");  // samo za probu POST-a klikom na gumb
  
  var myData = new Todo({
-     text: req.body.text
+     text: req.body.text   // polje name='text' iz html <body> spremi u bazu - item 'text'
  });
- // myData.text = req.body.text;  // polje 'text spremi u bazu - item 'text'
+ // myData.text = req.body.text;  // alternativni način: ...new Todo(); i onda ovaj red
  myData.save()
  .then(item => {
  res.send("item saved to database");
