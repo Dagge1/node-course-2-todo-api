@@ -4,7 +4,8 @@ var mongoose = require('mongoose');
 // spajanje na bazu
 mongoose.Promise = global.Promise;  // koristimo default promises umjesto callbacks
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TodoApp');
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TodoApp');
+mongoose.connect('mongodb://localhost:27017/TodoApp');
 
 
 module.exports = {  // exportiranje podataka
