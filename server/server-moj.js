@@ -57,6 +57,8 @@ app.use("/", (req, res) => {
 });
 
 app.post("/addname", (req, res) => {
+ console.log('Hey POST works');
+ /*
  var myData = new Todo();
      myData.text = req.body.text;
  myData.save()
@@ -65,7 +67,8 @@ app.post("/addname", (req, res) => {
  })
  .catch(err => {
  res.status(400).send("unable to save to database");
- });
+});
+*/
 });
 
 
