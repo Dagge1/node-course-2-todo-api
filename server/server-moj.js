@@ -18,7 +18,7 @@ var app = express();
 // const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
 // process.env je object koji pohranjuje sve environment varijable na PC-u kao key-value par,
 // (u CLI utipkaj 'set'). Mi tražimo varijablu PORT koju je postavio Heroku.
-const port = process.env.PORT;
+const port = process.env.PORT; // middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); // urlencoded vadi unos iz forme i stavlja u 'body' property 'res' objecta
 
@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({extended: true})); // urlencoded vadi unos iz for
 app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može biti i /dobardan
     
     var todo = new Todo ({  // novi tekst korištenjem modela/šprance Todo iz todo.js 
-        text: req.body.text  // odakle se šalje i kamo (u text:)
+        text: req.body.text  // kamo se šalje (u text:) i odakle - body.text, input polje naziva text
     });
 
     todo.save().then((doc) => {    // i save, nakon toga ide promise (nije uvjet)
@@ -56,7 +56,7 @@ app.get('/all', (req, res) => {
 //moja GET i POST funkcija za unos novog Todo u Mongo bazu putem html forme
 
 app.get("/", (req, res) => { // prvo u rootu GET ispiše html formu
- res.sendFile(__dirname + "/static_moj/index.html"); 
+ res.sendFile(__dirname + "/static_moj/index.html"); // prikaži static html sa input formom
  // res.send("<h3>Hello World</h3>");
 });
 
@@ -67,7 +67,7 @@ app.post("/addname", (req, res) => { // nakon klika 'Unesi' prebacuje na stranic
      text: req.body.text   // polje name='text' iz html <body> spremi u bazu - item 'text'
  });
  // myData.text = req.body.text;  // alternativni način: ...new Todo(); i onda ovaj red
- myData.save()
+ myData.save()  // i spremi u bazu
  .then(item => {
  // res.send("item saved to database");
  res.redirect('all');  // redirecta na listu unosa iz baze
