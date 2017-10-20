@@ -1,7 +1,7 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
 // cloud server je Heroku powerful-sea-16485 na https://powerful-sea-16485.herokuapp.com/
 // kada učitaš dodaj na kraju route ili collection
-require('./config/config'); // config fajl koji određuje port i koju bazu koristimo
+// require('./config/config'); // config fajl koji određuje port i koju bazu koristimo
 
 const _ = require('lodash');
 const express = require('express');
@@ -17,10 +17,9 @@ var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i
 // *** postavljanje basic servera ****
 var app = express();
 
-// const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
 // process.env je object koji pohranjuje sve environment varijable na PC-u kao key-value par,
 // (u CLI utipkaj 'set'). Mi tražimo varijablu PORT koju je postavio Heroku.
-const port = process.env.PORT;
+const port = process.env.PORT;  // port za Heroku, ako nema onda je default 3000 na localhost
 app.use(bodyParser.json());
 
 // *** POST request
