@@ -1,6 +1,8 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
 // cloud server je Heroku powerful-sea-16485 na https://powerful-sea-16485.herokuapp.com/
 // kada učitaš dodaj na kraju route ili collection
+require('./config/config'); // config fajl koji određuje port i koju bazu koristimo
+
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
@@ -122,7 +124,7 @@ app.patch('/todos/:id', (req, res) => {   // za updatanje
 
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Started up at port ' + port);
 });
 
