@@ -1,4 +1,7 @@
 // testiranje
+// server.js treba biti listen 3000 (local port) a lokalna Mongo baza treba biti uključena:
+// mongod.exe --dbpath c:/wamp/www/programi/2017/node_mead/mongo-data
+
 const expect = require('expect');
 const request = require('supertest');
 const {ObjectID} = require('mongodb');  // za fetchati ID
@@ -11,7 +14,9 @@ const todos = [{  // prije testa u lekciji 76 moramo dodati par unosa jer je pri
     text: 'First test todo'     // array sa dva objekta tj dva unosa u bazu
 }, {
     _id: new ObjectID(),
-    text: 'Second test todo'
+    text: 'Second test todo',
+    completed: true,
+    completedAt: 333
 }];
 
 
@@ -133,5 +138,44 @@ describe('DELETE /todos/:id', () => {
         .expect(404)
         .end(done);
     });
+});
 
+describe('PATCH /todos/:id', () => {
+    it('should update the todo', (done) => {
+        var hexId = todos[0]._id.toHexString();
+        var text = 'This should be the new text';
+
+        request(app)
+        .patch('/todos/' + hexId)
+        .send({
+            text: text,
+            completed: true
+        })
+        .expect(200)
+        .expect((res) => {
+            expect(res.body.todo.text).toBe(text);
+            expect(res.body.todo.completed).toBe(true);
+            expect(res.body.todo.completedAt).toBeA('number');
+        })
+        .end(done)
+    });
+
+    it('should clear completedAt when todo is not completed', (done) => {
+        var hexId = todos[1]._id.toHexString();
+        var text = 'This should be the new text!!';
+
+        request(app)
+        .patch('/todos/' + hexId)
+        .send({
+            text: text,
+            completed: false
+        })
+        .expect(200)
+        .expect((res) => {
+            expect(res.body.todo.text).toBe(text);
+            expect(res.body.todo.completed).toBe(false);
+            expect(res.body.todo.completedAt).toNotExist();
+        })
+        .end(done)
+    });
 });
