@@ -1,18 +1,20 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
 // cloud server je Heroku powerful-sea-16485 na https://powerful-sea-16485.herokuapp.com/
 // kada učitaš dodaj na kraju route ili collection
-// require('./config/config'); // config fajl koji određuje port i koju bazu koristimo
+require('./config/config'); // config fajl koji određuje port i koju bazu koristimo
 
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
 const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korištenje ID-a
 
+//region     za 'zatvaranje' proizvoljnog dijela koda, može i #region
 // my local imports into this document
 var {mongoose} = require('./db/mongoose');  // ES6 način sa {}, destructuring
 var mongoose = require('./db/mongoose').mongoose;    // stari način
 var {Todo} = require('./models/todo');  // moglo bi i ./models/todo.js
 var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i u ovom fajlu se ne koristi
+//endregion
 
 // *** postavljanje basic servera ****
 var app = express();
