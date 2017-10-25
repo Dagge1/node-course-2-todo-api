@@ -1,4 +1,5 @@
-var mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
+const validator = require('validator');  // za provjeru emaila, telefona, kartice itd 
 // mongoose model tj definiranje parametara polja za pojedini record u databazu (kao sa MySQL, tip: string, duljina itd)
 
 // osim originalnog naziva u collection 'users', mongoose autom. gleda množinu za ovdje navedeni naziv 'User',
@@ -9,7 +10,14 @@ var User = mongoose.model('User', {   // definiranje polja za tabelu 'User' (tj 
         type: String,
         required: true,
         trim: true,
-        minlength: 1
+        minlength: 1,
+        unique: true,  // ne može se registrirati sa dva ista emaila, default je false
+        validate: {  // mongoose docs validation, za provjeru email formata (install npm validator)
+            validator: (value) => {
+
+            },
+            message: value + ' is not valid email'
+        }
     }    
 });
 

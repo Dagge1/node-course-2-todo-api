@@ -1,6 +1,7 @@
 // library imports - todo.js je model za podatke recorda (tip, duljina itd), mongoose.js je konekcija na bazu 'TodoApp'
 // cloud server je Heroku powerful-sea-16485 na https://powerful-sea-16485.herokuapp.com/
 // kada učitaš dodaj na kraju route ili collection
+// git slanje: git add . # git commit -m "poruka" # git push ## git push heroku
 require('./config/config'); // config fajl koji određuje port i koju bazu koristimo
 
 const _ = require('lodash');
@@ -10,7 +11,7 @@ const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korište
 
 //region     za 'zatvaranje' proizvoljnog dijela koda, može i #region
 // my local imports into this document
-var {mongoose} = require('./db/mongoose');  // ES6 način sa {}, destructuring
+// var {mongoose} = require('./db/mongoose');  // ES6 način sa {}, destructuring
 var mongoose = require('./db/mongoose').mongoose;    // stari način
 var {Todo} = require('./models/todo');  // moglo bi i ./models/todo.js
 var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i u ovom fajlu se ne koristi
@@ -28,7 +29,6 @@ app.use(bodyParser.json());
 
 // app.post je URL handler  a '/todos' je URL. Da stavimo /todos/3244 to bi bio indivivualni post
 app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može biti i /dobardan
-    
     var todo = new Todo ({  // novi tekst korištenjem modela/šprance Todo iz todo.js 
         text: req.body.text  // odakle se šalje i kamo (u text:)
     });
@@ -43,7 +43,8 @@ app.post('/todos', (req, res) => { // todos je naziv lokacije u browseru, može 
 
 // ***** GET request ***
 
-app.get('/', (req, res) => { 
+// ako želiš pristupati individualno itemima onda bez {} tj res.send(todos[0].text)
+app.get('/', (req, res) => { // više parametara: /:ime-:prezime ili /:ime&prezime, ulovi sa res.send(req.params)
     Todo.find().then((todos) => {  // pronađi sve todo unose. Da je query find(nešto) prikazao bi filtrirano
         res.send({todos});    // ako ok šalji podatke natrag. todos je samo placeholder ime
     }, (e) => {           // promise u slučaju da bude rejected
@@ -93,7 +94,7 @@ app.delete('/todos/:id', (req, res) => {
         res.status(200).send({todo});
 
     // error case -> send 400 with empty body
-    }).catch((e) => {    
+    }).catch((e) => {
         res.status(400).send();
     });
 });

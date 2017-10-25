@@ -2,6 +2,8 @@
 // cloud server je Heroku powerful-sea-16485 na https://powerful-sea-16485.herokuapp.com/
 // kada učitaš dodaj na kraju route ili collection
 // ****** User input from html form into Mongo database *****
+require('./config/config');
+
 const express = require('express');
 const bodyParser = require('body-parser');  // za parsanje poslanog stringa u objekt koji će prikazati
 const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korištenje ID-a
@@ -60,7 +62,7 @@ app.get("/", (req, res) => { // prvo u rootu GET ispiše html formu
  // res.send("<h3>Hello World</h3>");
 });
 
-app.post("/addname", (req, res) => { // nakon klika 'Unesi' prebacuje na stranicu /addname
+app.post("/", (req, res) => { 
  // res.send("<h3>Hello World</h3>");  // samo za probu POST-a klikom na gumb
  
  var myData = new Todo({

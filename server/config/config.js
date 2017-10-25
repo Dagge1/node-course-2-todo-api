@@ -1,6 +1,6 @@
 // fajl koji određuje koju bazu ćemo koristiti ovisno da li je prod, dev ili testing
 // ubačen je a početku server.js
-var env = process.env.NODE_ENV || 'development';  // za switchanje porta ovisno o tipu rada
+var env = process.env.NODE_ENV || 'development';  // za switchanje porta ovisno o tipu rada. Ako hoćeš test bazu upiši 'test'
 
 if (env === 'development') {  // ovisno o radu (produkcija, dev, testiranje) odrediti ćemo port
     process.env.PORT = 3000;  // ako je 'dev': port za local server
