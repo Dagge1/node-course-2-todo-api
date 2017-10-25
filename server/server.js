@@ -126,6 +126,17 @@ app.patch('/todos/:id', (req, res) => {   // za updatanje
 
 });
 
+app.post('/users', (req, res) => {  // probno unesi iz Postmana
+    var body = _.pick(req.body, ['email', 'password']);  // lodash metoda za kupljenje podataka iz browsera
+    var user = new User(body);   // prihvaćamo kompletne podatke iz 'body' na stranici
+
+    user.save().then((user) => {
+        res.send(user);
+    }).catch((e) => {
+        res.status(400).send(e);
+    })
+});
+
 app.listen(port, () => {
     console.log('Started up at port ' + port);
 });

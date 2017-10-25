@@ -13,12 +13,25 @@ var User = mongoose.model('User', {   // definiranje polja za tabelu 'User' (tj 
         minlength: 1,
         unique: true,  // ne može se registrirati sa dva ista emaila, default je false
         validate: {  // mongoose docs validation, za provjeru email formata (install npm validator)
-            validator: (value) => {
-
-            },
-            message: value + ' is not valid email'
+            validator: validator.isEmail,
+            message: '{VALUE} is not valid email'  // injectali smo email sa VALUE
         }
-    }    
+    },
+    password: {
+        type: String,
+        require: true,
+        minlength: 6 
+    },
+    tokens: [{  // sigurnosni tokeni za mongoDB, za SQL nema
+        access: {
+            type: String,
+            required: true
+        },
+        token: {
+            type: String,
+            required: true            
+        }
+    }]    
 });
 
 module.exports = {User};
