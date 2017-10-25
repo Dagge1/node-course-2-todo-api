@@ -16,7 +16,7 @@ var User = mongoose.model('User', {   // definiranje polja za tabelu 'User' (tj 
             validator: (value) => {
 
             },
-            message: value + ' is not valid emailb'
+            message: value + ' is not valid email'
         }
     }    
 });
