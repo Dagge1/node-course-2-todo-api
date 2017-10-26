@@ -130,8 +130,10 @@ app.post('/users', (req, res) => {  // probno unesi iz Postmana
     var body = _.pick(req.body, ['email', 'password']);  // lodash metoda za kupljenje podataka iz browsera
     var user = new User(body);   // prihvaćamo kompletne podatke iz 'body' na stranici
 
-    user.save().then((user) => {
-        res.send(user);
+    user.save().then(() => {
+        return user.generateAuthToken(); // moj method u user.js za generiranje tokena
+    }).then((token) => {
+        res.header('x-auth', token).send(user);  // pošalji natrag token u headeru (key: value pair)
     }).catch((e) => {
         res.status(400).send(e);
     })
