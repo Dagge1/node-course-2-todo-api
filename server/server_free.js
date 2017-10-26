@@ -15,7 +15,6 @@ const {ObjectID} = require('mongodb');  // ovo nije obavezno, za lakše korište
 var mongoose = require('./db/mongoose').mongoose;    // stari način
 var {Todo} = require('./models/todo');  // moglo bi i ./models/todo.js
 var {User} = require('./models/user');  // ovo je drugi collection (db tabela) i u ovom fajlu se ne koristi
-var {authenticate} = require('./middleware/authenticate');
 //endregion
 
 // *** postavljanje basic servera ****
@@ -139,14 +138,6 @@ app.post('/users', (req, res) => {  // probno unesi iz Postmana
         res.status(400).send(e);
     })
 });
-
-
-
-// private route - sa tokenom za autentifikaciju
-app.get('/users/me', authenticate, (req, res) => {   // koristi middleware authenticate iznad
-    res.send(req.user);  // koristi user iz authentification() midware-a gore
-});
-
 
 app.listen(port, () => {
     console.log('Started up at port ' + port);

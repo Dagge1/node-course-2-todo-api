@@ -52,7 +52,7 @@ UserSchema.methods.toJSON = function () {   // prvo uzmemo kompletan JSON odgovo
 
 // UserSchema.methods je object u koji možemo staviti bilo koji method želimo
 UserSchema.methods.generateAuthToken = function () { // klasična funkcija zbog 'this'
-    var user = this;
+    var user = this;  // instance method se poziva sa individualnim dokumentom
     var access = 'auth';
     var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
     user.tokens.push({access, token});  // ES6 način, kao access: access, token: token
@@ -61,6 +61,28 @@ UserSchema.methods.generateAuthToken = function () { // klasična funkcija zbog 
         return token;
     });
 };
+
+// statics je object, sve dodano pretvoriti će se u model method umjesto instance method
+// FindByToken je property objekta statics
+UserSchema.statics.findByToken = function (token) {
+    var User = this;     // model method (sa velikim slovom) se poziva sa modelom this
+
+    var decoded; // kreiramo undefined varijablu
+    // ako kod u try ne javi grešku nastavlja dolje
+    try {
+        decoded = jwt.verify(token, 'abc123'); // ako dekodiramo token poslan u headeru...
+    } catch(e) {  // ako javi grešku prekida dolje izvršenje
+        return Promise.reject();
+    }
+
+    //ako je try prošao (token je ispravan), nađi usera
+    return User.findOne({   // pronađi jedan unos
+        "_id": decoded._id,
+        "tokens.token": token,  // ako vrijednost ima točku . treba quotes " ili '
+        "tokens.access": "auth"
+    });    
+};
+
 
 // standardna mongoose schema koja koristi našu gore definiranu custom schemu
 var User = mongoose.model('User', UserSchema);
