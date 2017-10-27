@@ -8,10 +8,33 @@
 // sistem ovdje opisan je JSON web token (JWT) i koristi se u kriptiranju pasworda i pristupa
 const {SHA256} = require('crypto-js'); // ovo je za probu kriptiranja ali koristiti ćemo jwt jer je lakše
 const jwt = require('jsonwebtoken'); // library za generiranje i provjeru passworda
+const bcrypt = require('bcryptjs');  // za kriptiranje pasworda
+
+// bcrypt šifriranje passworda primjer
+var password = '123abc!';
+// genSalt generira salt, treba da hash ne bi svaki put bio isti
+// 10 je broj rundi, usporava i to je ok da se ne može napadati sa brute force
+// umjesto milijun napada/sec reducira na par stotina/sec
+
+bcrypt.genSalt(10, (err, salt) => {  // neki koriste i 120, da brute force ne može provaliti
+    bcrypt.hash(password, salt, (err, hash) => {
+        console.log(hash);  // rezultat kriptiranja
+    });
+});
+
+
+// ovdje je generirani hashed pass, onako kako je spremljen u bazi
+var hashedPassword = '$2a$10$eXmUI7XuVhpzSEwRUiC8lOkbN1yK0l3CKEWLYW1ea5zeplIqCHpku';
+// uzima kriptirani pass i komparira ga sa originalom. res je true ili false, ako je ok onda je true
+bcrypt.compare(password, hashedPassword, (err, res) => {
+    console.log(res);  // ako je pass identičan hashed pass-u u bazi onda je true
+})  
+
 
 // *** jsonwebtoken - vidi i jwt.io za provjeru tokena
 // metoda za login i druga za provjeru pasworda, te za autentifikaciju requesta (za brisanjem todo itema npr)
 
+/*
 var data = {
     id: 10
 };
@@ -23,6 +46,8 @@ console.log(token);
 // za dekodiranje i provjeru
 var decoded = jwt.verify(token, '123abc');
 console.log('decoded', decoded); // vraća originalni object sa podacima
+*/
+
 
 
 

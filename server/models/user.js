@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');  // za provjeru emaila, telefona, kartice itd 
 const jwt = require('jsonwebtoken');  // za šifriranje i token
 const _ = require('lodash');   // za korištenje_.pick() metode
+const bcrypt = require('bcryptjs'); // za kriptiranje passworda
 // mongoose model tj definiranje parametara polja za pojedini record u databazu (kao sa MySQL, tip: string, duljina itd)
 
 // osim originalnog naziva u collection 'users', mongoose autom. gleda množinu za ovdje navedeni naziv 'User',
@@ -83,6 +84,20 @@ UserSchema.statics.findByToken = function (token) {
     });    
 };
 
+// mongoose middleware, .pre znači prije eventa 'save', tj prije sejvanja će kriptirati pass u callbacku
+UserSchema.pre ('save', function (next) { // klasična funkcija jer nam treba 'this'
+    var user = this;
+    if (user.isModified('password')) {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(user.password, salt, (err, hash) => {
+                user.password = hash;
+                next();
+            });
+        });
+    } else {
+        next();
+    }
+});
 
 // standardna mongoose schema koja koristi našu gore definiranu custom schemu
 var User = mongoose.model('User', UserSchema);
