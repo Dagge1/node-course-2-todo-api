@@ -84,6 +84,27 @@ UserSchema.statics.findByToken = function (token) {
     });    
 };
 
+// schema za pronaći user name i pass i provjeriti autentičnost
+UserSchema.statics.findByCredentials = function (email, password) {
+    var User = this;
+
+    return User.findOne({email}).then((user) => {
+        if (!user) {
+            return Promise.reject();
+        }
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(password, user.password, (err, res) => {
+                if (res) {
+                    resolve(user);
+                } else {
+                    reject();
+                }
+            });
+        });
+    });
+};
+
+
 // mongoose middleware, .pre znači prije eventa 'save', tj prije sejvanja će kriptirati pass u callbacku
 UserSchema.pre ('save', function (next) { // klasična funkcija jer nam treba 'this'
     var user = this;

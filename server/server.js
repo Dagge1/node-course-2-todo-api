@@ -147,6 +147,18 @@ app.get('/users/me', authenticate, (req, res) => {   // koristi middleware authe
     res.send(req.user);  // koristi user iz authentification() midware-a gore
 });
 
+// prijava i autentifikacija usera, slanje username i passworda koji sistem provjerava
+app.post('/users/login', (req, res) => {
+    var body = _.pick(req.body, ['email', 'password']); // pokupi email i pass od korisnika
+// provjeri username i pass...    
+    User.findByCredentials(body.email, body.password).then((user) => {
+        return user.generateAuthToken().then((token) => {
+            res.header('x-auth', token).send(user);
+        });
+    }).catch((e) => {
+        res.status(400).send();
+    });
+});
 
 app.listen(port, () => {
     console.log('Started up at port ' + port);
